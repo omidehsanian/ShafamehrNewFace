@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>سامانه مدیریت کلینیک فیزیوتراپی</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- صفحه ورود -->
+<!-- ============================================================ -->
+<div class="auth-screen" id="screenAuth">
+  <div class="auth-card">
+    <div class="auth-logo" id="authLogo"><span class="icon" id="authLogoIcon"></span></div>
+    <div class="auth-title" id="appNameTitle">سامانه مدیریت کلینیک فیزیوتراپی</div>
+    <div class="auth-subtitle">ورود کاربر</div>
+
+    <form class="auth-form" id="loginForm">
+      <div class="field">
+        <label>نام کاربری</label>
+        <input type="text" id="loginUsername" autocomplete="username">
+      </div>
+      <div class="field">
+        <label>رمز عبور</label>
+        <div class="password-wrap">
+          <input type="password" id="loginPassword" autocomplete="current-password">
+          <button type="button" class="password-toggle" id="toggleLoginPwd"></button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success btn-block">ورود به برنامه</button>
+      <div class="auth-error" id="loginError"></div>
+    </form>
+
+    <div class="auth-warning-banner hidden" id="licenseSoonWarning"></div>
+    <div class="auth-hint hidden" id="firstRunHint">اولین ورود؟ نام کاربری: admin | رمز عبور: admin123</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- صفحه انقضای لایسنس -->
+<!-- ============================================================ -->
+<div class="auth-screen hidden" id="screenLicenseGate">
+  <div class="auth-card" style="width:440px;">
+    <div class="auth-logo" style="background:var(--danger-500);"><span class="icon" id="gateIcon"></span></div>
+    <div class="auth-title">دوره اعتبار برنامه به پایان رسیده است</div>
+    <div class="auth-subtitle" id="gateExpiryText"></div>
+
+    <div style="text-align:right; margin-top:10px;">
+      <div class="field">
+        <label>نام کاربری مدیر</label>
+        <input type="text" id="gateUsername">
+      </div>
+      <div class="field">
+        <label>رمز عبور</label>
+        <input type="password" id="gatePassword">
+      </div>
+      <div class="field">
+        <label>کد لایسنس</label>
+        <textarea id="gateKey" class="license-key-input" placeholder="PHYSIO-XXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></textarea>
+      </div>
+    </div>
+    <button class="btn btn-success btn-block mt-8" id="gateActivateBtn">فعال‌سازی و ورود</button>
+    <div class="auth-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- برنامه اصلی -->
+<!-- ============================================================ -->
+<div class="app-shell hidden" id="screenApp">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img id="sidebarLogoImg" class="hidden">
+      <div class="logo-fallback" id="sidebarLogoFallback">ف</div>
+      <div class="sidebar-brand-text" id="sidebarAppName">کلینیک فیزیوتراپی</div>
+    </div>
+    <nav class="nav-group">
+      <div class="nav-item active" data-page="patients"><span class="icon"></span>بیماران</div>
+      <div class="nav-item" data-page="appointments"><span class="icon"></span>نوبت‌دهی</div>
+      <div class="nav-item" data-page="exercises"><span class="icon"></span>کتابخانه تمرینات</div>
+      <div class="nav-item" data-page="progress"><span class="icon"></span>پیگیری پیشرفت</div>
+
+      <div class="nav-divider admin-only hidden"></div>
+      <div class="nav-section-label admin-only hidden">مدیریت</div>
+      <div class="nav-item admin-only hidden" data-page="reports"><span class="icon"></span>گزارش‌ها و اکسل</div>
+      <div class="nav-item admin-only hidden" data-page="users"><span class="icon"></span>کاربران</div>
+      <div class="nav-item admin-only hidden" data-page="license"><span class="icon"></span>لایسنس</div>
+      <div class="nav-item admin-only hidden" data-page="settings"><span class="icon"></span>تنظیمات</div>
+    </nav>
+    <div class="sidebar-footer" id="sidebarFooter"></div>
+  </aside>
+
+  <div class="main-area">
+    <div class="topbar">
+      <div class="topbar-title" id="pageTitle">بیماران</div>
+      <div class="topbar-user">
+        <span id="topbarUserName"></span>
+        <div class="avatar" id="topbarAvatar"></div>
+        <button class="btn btn-ghost btn-sm btn-icon" id="logoutBtn" title="خروج"><span class="icon"></span></button>
+      </div>
+    </div>
+    <div class="content" id="pageContent">
+      <!-- صفحات با جاوااسکریپت اینجا رندر می‌شوند -->
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- صفحه قفل خودکار -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="lockOverlay">
+  <div class="modal-box" style="text-align:center;">
+    <div class="auth-logo" style="margin:0 auto 14px;"><span class="icon" id="lockIcon"></span></div>
+    <div class="modal-title">صفحه به دلیل عدم فعالیت قفل شد</div>
+    <div class="modal-desc" id="lockUserText"></div>
+    <input type="password" id="lockPassword" placeholder="رمز عبور" style="text-align:center; margin-top:10px;">
+    <div class="auth-error" id="lockError"></div>
+    <button class="btn btn-success btn-block mt-16" id="lockUnlockBtn">باز کردن قفل</button>
+  </div>
+</div>
+
+<!-- نوتیفیکیشن‌ها -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- مودال عمومی تأیید -->
+<div class="modal-overlay" id="confirmOverlay">
+  <div class="modal-box">
+    <div class="modal-title" id="confirmTitle">تأیید</div>
+    <div class="modal-desc" id="confirmDesc"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="confirmCancelBtn">انصراف</button>
+      <button class="btn btn-danger" id="confirmOkBtn">تأیید</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/jalali.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/bridge.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/pages/patients.js"></script>
+<script src="js/pages/appointments.js"></script>
+<script src="js/pages/exercises.js"></script>
+<script src="js/pages/progress.js"></script>
+<script src="js/pages/reports.js"></script>
+<script src="js/pages/users.js"></script>
+<script src="js/pages/license.js"></script>
+<script src="js/pages/settings.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
