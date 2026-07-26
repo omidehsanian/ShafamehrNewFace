@@ -1,9 +1,11 @@
-# سامانه مدیریت کلینیک فیزیوتراپی — نسخه وب‌محور (طراحی جدید)
+# سامانه مدیریتمتمرکز بیماران — نسخه وب‌محور (طراحی جدید)
 
-
+Install Python
+Install SQL Lite
 ## نصب و اجرا (برای توسعه/تست)
 
 ```
+
 pip install -r requirements.txt
 python main_web.py
 ```
